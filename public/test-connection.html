@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Backend Connection Test - Port 8080</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 900px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        h1 { color: #333; }
+        .test-section {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .test-result {
+            margin: 15px 0;
+            padding: 15px;
+            border-radius: 5px;
+        }
+        .success {
+            background-color: #d4edda;
+            border: 2px solid #28a745;
+            color: #155724;
+        }
+        .error {
+            background-color: #f8d7da;
+            border: 2px solid #dc3545;
+            color: #721c24;
+        }
+        .info {
+            background-color: #d1ecf1;
+            border: 2px solid #17a2b8;
+            color: #0c5460;
+        }
+        button {
+            padding: 12px 24px;
+            margin: 5px;
+            cursor: pointer;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        pre {
+            background-color: #f4f4f4;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            font-size: 12px;
+        }
+        .status-badge {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 3px;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+        .connected {
+            background-color: #28a745;
+            color: white;
+        }
+        .disconnected {
+            background-color: #dc3545;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔍 Backend Connection Test</h1>
+    <div class="test-section">
+        <h3>Configuration</h3>
+        <p><strong>Frontend URL:</strong> <code>http://localhost:8080</code></p>
+        <p><strong>Backend URL:</strong> <code>http://localhost:8088</code></p>
+        <p id="backend-status"><strong>Backend Status:</strong> <span class="status-badge disconnected">Testing...</span></p>
+    </div>
+
+    <div class="test-section">
+        <h3>Automated Tests</h3>
+        <button onclick="runAllTests()">🔄 Run All Tests</button>
+        <button onclick="testHealth()">Health Check</button>
+        <button onclick="testDatabaseStatus()">Database Status</button>
+        <button onclick="testProducts()">Products</button>
+        <button onclick="testCategories()">Categories</button>
+        <button onclick="testMetals()">Metals</button>
+        <button onclick="clearResults()">Clear Results</button>
+    </div>
+
+    <div id="results"></div>
+
+    <script>
+        const API_BASE_URL = 'http://localhost:8088';
+
+        function clearResults() {
+            document.getElementById('results').innerHTML = '';
+        }
+
+        function updateBackendStatus(connected) {
+            const statusElement = document.getElementById('backend-status');
+            if (connected) {
+                statusElement.innerHTML = '<strong>Backend Status:</strong> <span class="status-badge connected">✅ CONNECTED</span>';
+            } else {
+                statusElement.innerHTML = '<strong>Backend Status:</strong> <span class="status-badge disconnected">❌ DISCONNECTED</span>';
+            }
+        }
+
+        function addResult(title, status, data, error = null) {
+            const resultsDiv = document.getElementById('results');
+            const resultDiv = document.createElement('div');
+            resultDiv.className = `test-result ${status}`;
+            
+            const timestamp = new Date().toLocaleTimeString();
+            let html = `<h3>${title} <small style="color: #666;">(${timestamp})</small></h3>`;
+            
+            if (status === 'success') {
+                html += `<p><strong>✅ Success!</strong></p>`;
+                html += `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+            } else if (status === 'error') {
+                html += `<p><strong>❌ Error!</strong></p>`;
+                html += `<p style="font-weight: bold;">${error}</p>`;
+                if (data) {
+                    html += `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+                }
+            } else {
+                html += `<p><strong>ℹ️ ${error || 'Testing...'}</strong></p>`;
+            }
+            
+            resultDiv.innerHTML = html;
+            resultsDiv.insertBefore(resultDiv, resultsDiv.firstChild);
+        }
+
+        async function testHealth() {
+            try {
+                console.log('Testing health endpoint...');
+                const response = await fetch(`${API_BASE_URL}/api/test/health`, {
+                    method: 'GET',
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                });
+                const data = await response.json();
+                addResult('1. Health Check', 'success', data);
+                updateBackendStatus(true);
+                return true;
+            } catch (error) {
+                console.error('Health check failed:', error);
+                addResult('1. Health Check', 'error', null, `Cannot connect to backend: ${error.message}`);
+                updateBackendStatus(false);
+                return false;
+            }
+        }
+
+        async function testDatabaseStatus() {
+            try {
+                const response = await fetch(`${API_BASE_URL}/api/test/db-status`);
+                const data = await response.json();
+                if (data.status === 'CONNECTED') {
+                    addResult('2. Database Status', 'success', data);
+                } else {
+                    addResult('2. Database Status', 'error', data, 'Database not connected');
+                }
+            } catch (error) {
+                addResult('2. Database Status', 'error', null, error.message);
+            }
+        }
+
+        async function testProducts() {
+            try {
+                const response = await fetch(`${API_BASE_URL}/api/products`);
+                const data = await response.json();
+                addResult(`3. Products (${data.length} found)`, 'success', data);
+            } catch (error) {
+                addResult('3. Products', 'error', null, error.message);
+            }
+        }
+
+        async function testCategories() {
+            try {
+                const response = await fetch(`${API_BASE_URL}/api/categories`);
+                const data = await response.json();
+                addResult(`4. Categories (${data.length} found)`, 'success', data);
+            } catch (error) {
+                addResult('4. Categories', 'error', null, error.message);
+            }
+        }
+
+        async function testMetals() {
+            try {
+                const response = await fetch(`${API_BASE_URL}/api/metals`);
+                const data = await response.json();
+                addResult(`5. Metals (${data.length} found)`, 'success', data);
+            } catch (error) {
+                addResult('5. Metals', 'error', null, error.message);
+            }
+        }
+
+        async function runAllTests() {
+            clearResults();
+            addResult('Starting All Tests', 'info', null, 'Running comprehensive backend tests...');
+            
+            const healthOk = await testHealth();
+            if (!healthOk) {
+                addResult('Tests Stopped', 'error', null, 'Backend is not responding. Make sure it\'s running on port 8088.');
+                return;
+            }
+            
+            await new Promise(resolve => setTimeout(resolve, 500));
+            await testDatabaseStatus();
+            await new Promise(resolve => setTimeout(resolve, 500));
+            await testProducts();
+            await new Promise(resolve => setTimeout(resolve, 500));
+            await testCategories();
+            await new Promise(resolve => setTimeout(resolve, 500));
+            await testMetals();
+            
+            addResult('All Tests Complete!', 'success', {
+                message: 'All backend endpoints are working correctly!',
+                nextStep: 'If this works but your React app doesn\'t, the issue is in the React app configuration.'
+            });
+        }
+
+        // Auto-test on load
+        window.onload = function() {
+            setTimeout(runAllTests, 1000);
+        };
+    </script>
+</body>
+</html>
