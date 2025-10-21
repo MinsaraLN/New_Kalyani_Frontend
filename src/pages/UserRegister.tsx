@@ -7,6 +7,7 @@ import { toast } from "sonner";
 import { UserPlus } from "lucide-react";
 import axios from 'axios'
 
+// UserRegister component handles register functionality for users
 const UserRegister = () => {
   const navigate = useNavigate();
 

@@ -13,6 +13,7 @@ const UserLogin = () => {
   const [email, setEmail]=useState("");
   const [passwordHash, setPasswordHash]=useState("");
 
+// UserLogin component handles login functionality for users
   const handleLogin = async (e) => {
     e.preventDefault();
     try{
