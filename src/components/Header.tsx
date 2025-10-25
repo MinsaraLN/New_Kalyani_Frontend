@@ -105,10 +105,10 @@ const Header = () => {
 
   const menuItems = [
     { label: "Home", href: "/" },
-    { label: "Bridal", href: "bridal" },
-    { label: "Custom Design", href: "custom-design" },
-    { label: "About", href: "about" },
-    { label: "Contact", href: "contact" },
+    { label: "Bridal", href: "/bridal" },
+    { label: "Custom Design", href: "/custom-design" },
+    { label: "About", href: "/about" },
+    { label: "Contact", href: "/contact" },
   ];
 
 // Categories are now fetched dynamically from backend

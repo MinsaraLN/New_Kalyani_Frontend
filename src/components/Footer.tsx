@@ -9,7 +9,7 @@ const Footer = () => {
           <div>
             <h3 className="text-2xl font-display font-bold mb-4">New Kalyani Jewellers</h3>
             <p className="font-body text-primary-foreground/80 mb-4">
-              Crafting timeless elegance since 1995. We blend traditional craftsmanship with contemporary design to create Jewellery that tells your unique story.
+              Crafting timeless elegance since 1989. We blend traditional craftsmanship with contemporary design to create Jewellery that tells your unique story.
             </p>
           </div>
 
@@ -68,17 +68,17 @@ const Footer = () => {
             <ul className="space-y-3 font-body">
               <li className="flex items-start gap-2">
                 <Phone className="h-5 w-5 mt-0.5 flex-shrink-0" />
-                <span className="text-primary-foreground/80">+1 (555) 123-4567</span>
+                <span className="text-primary-foreground/80">+94 112 257 1482</span>
               </li>
               <li className="flex items-start gap-2">
                 <Mail className="h-5 w-5 mt-0.5 flex-shrink-0" />
-                <span className="text-primary-foreground/80">contact@lumierejewels.com</span>
+                <span className="text-primary-foreground/80">newkalyanijewellers.com</span>
               </li>
               <li className="flex items-start gap-2">
                 <MapPin className="h-5 w-5 mt-0.5 flex-shrink-0" />
                 <span className="text-primary-foreground/80">
-                  123 Jewellery Lane<br />
-                  Luxury District, City 12345
+                  475/A Kaduwela Rd<br />
+                  Sri Jayawardenepura Kotte, Sri Lanka
                 </span>
               </li>
             </ul>
@@ -93,7 +93,9 @@ const Footer = () => {
             </p>
             <div className="flex gap-4">
               <a
-                href="#"
+                href="https://www.facebook.com/Newkalyanijewellers/" // ← Replace with your actual page URL
+                target="_blank"
+                rel="noopener noreferrer"
                 className="bg-primary-foreground/10 hover:bg-primary-foreground/20 p-2 rounded-full transition-smooth"
                 aria-label="Facebook"
               >
@@ -106,8 +108,9 @@ const Footer = () => {
               >
                 <Instagram className="h-5 w-5" />
               </a>
-              <a
-                href="#"
+              <a href="https://wa.me/94767888657?text=<encoded_message>"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="bg-primary-foreground/10 hover:bg-primary-foreground/20 p-2 rounded-full transition-smooth"
                 aria-label="WhatsApp"
               >

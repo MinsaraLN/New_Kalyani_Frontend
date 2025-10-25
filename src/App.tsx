@@ -25,6 +25,7 @@ import UserManagement from "./pages/admin/UserManagement";
 import ReviewManagement from "./pages/admin/ReviewManagement";
 import GemManagement from "./pages/admin/GemManagement";
 import BridalCollection from "./pages/BridalCollection";
+import BridalCategoryCollection from "./pages/BridalCategoryCollection";
 import CustomDesign from "./pages/CustomDesign";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
@@ -57,6 +58,7 @@ const App = () => (
             <Route path="/gem/:id" element={<GemDetail />} />
             <Route path="/product/:id" element={<ProductDetail />} />
             <Route path="/bridal" element={<BridalCollection />} />
+            <Route path="/bridal/collection/:category" element={<BridalCategoryCollection />} />
             <Route path="/jewellery/bridal" element={<BridalCollection />} />
             <Route path="/custom-design" element={<CustomDesign />} />
             <Route path="/about" element={<About />} />

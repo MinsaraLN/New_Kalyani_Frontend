@@ -271,7 +271,7 @@ export default function AdminDashboard() {
   // Reviews
   const { data: allReviews = [] } = useQuery({
     queryKey: ["reviews"],
-    queryFn: () => axiosInstance.get("/api/reviews").then(res => res.data),
+    queryFn: () => axiosInstance.get("/api/reviews/adminQueue").then(res => res.data),
   });
 
   // Convert to numbers for dashboard display

@@ -3,8 +3,10 @@ import Footer from "@/components/Footer";
 import ReviewsDisplay from "@/components/ReviewsDisplay";
 import { Button } from "@/components/ui/button";
 import { Award, Heart, Shield, Gem } from "lucide-react";
+import { Link } from "react-router-dom";
 import aboutHero from "@/assets/about-hero.jpg";
 import customProcess from "@/assets/custom-process.jpg";
+
 
 const values = [
   { icon: Gem, title: "Excellence in Craftsmanship", description: "Every piece reflects our commitment to perfection" },
@@ -60,7 +62,7 @@ const About = () => {
           <div>
             <h2 className="font-display text-4xl mb-6 text-foreground">Our Heritage</h2>
             <p className="text-lg text-muted-foreground mb-4 leading-relaxed">
-              Founded in 1998 by master jeweler Shri Rajesh Kumar, New Kalyani Jewellers began as a small workshop with a
+              Founded in 1989 by Mr Amararatna Kodagoda, New Kalyani Jewellers began as a small workshop with a
               big dream: to create Jewellery that tells stories and celebrates life's precious moments.
             </p>
             <p className="text-lg text-muted-foreground leading-relaxed">
@@ -157,12 +159,16 @@ const About = () => {
           Experience our collections in person and let our experts guide you to the perfect piece
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          <Button size="lg" variant="default">
-            Explore Our Collections
-          </Button>
-          <Button size="lg" variant="outline">
-            Find a Store Near You
-          </Button>
+          <Link to="/bridal">
+            <Button size="lg" variant="default">
+              Explore Our Collections
+            </Button>
+          </Link>
+          <Link to="/contact">
+            <Button size="lg" variant="outline">
+              Find a Store Near You
+            </Button>
+          </Link>
         </div>
       </section>
 

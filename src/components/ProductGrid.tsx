@@ -71,9 +71,6 @@ const ProductGrid = () => {
                 <h3 className="text-lg font-display font-semibold text-primary mb-1">
                   {product.name}
                 </h3>
-                <p className="text-sm text-muted-foreground font-body">
-                  LKR {product.initialProductionCost.toLocaleString()}
-                </p>
               </Link>
             ))}
           </div>
