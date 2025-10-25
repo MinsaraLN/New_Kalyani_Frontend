@@ -17,6 +17,7 @@ const UserRegister = () => {
   const [password, setPassword] = useState("");
   const [role, setRole] = useState("");
 
+// handleSignUp component handles SignUp functionality for users
   const handleSignUp = async (e) => {
     e.preventDefault();
     e.preventDefault();
