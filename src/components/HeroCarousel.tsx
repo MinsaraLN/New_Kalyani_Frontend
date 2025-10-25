@@ -4,29 +4,25 @@ import { Button } from "@/components/ui/button";
 import hero1 from "@/assets/hero-1.jpg";
 import hero2 from "@/assets/hero-2.jpg";
 import hero3 from "@/assets/hero-3.jpg";
-import { Link } from "react-router-dom";
 
 const slides = [
   {
     image: hero1,
     title: "Exquisite Craftsmanship",
-    subtitle: "Discover our signature collection of handcrafted luxury Jewellery",
+    subtitle: "Discover our signature collection of handcrafted luxury jewelry",
     cta: "Explore Collection",
-    link: "/custom-design",
   },
   {
     image: hero2,
     title: "Bridal Elegance",
     subtitle: "Timeless pieces for your special day",
     cta: "View Bridal Collection",
-    link: "/bridal",
   },
   {
     image: hero3,
     title: "Custom Designs",
     subtitle: "Create your unique masterpiece with our expert artisans",
     cta: "Start Designing",
-    link: "/custom-design",
   },
 ];
 
@@ -60,11 +56,8 @@ const HeroCarousel = () => {
         <div
           key={index}
           className={`absolute inset-0 transition-opacity duration-1000 ${
-            index === currentSlide
-              ? "opacity-100 z-10 pointer-events-auto"
-              : "opacity-0 z-0 pointer-events-none"
+            index === currentSlide ? "opacity-100" : "opacity-0"
           }`}
-          aria-hidden={index !== currentSlide}
         >
           <div className="absolute inset-0">
             <img
@@ -84,8 +77,8 @@ const HeroCarousel = () => {
               <p className="text-lg md:text-xl lg:text-2xl font-body mb-8 text-card/90">
                 {slide.subtitle}
               </p>
-              <Button asChild variant="hero" size="xl">
-                <Link to={slide.link}>{slide.cta}</Link>
+              <Button variant="hero" size="xl">
+                {slide.cta}
               </Button>
             </div>
           </div>

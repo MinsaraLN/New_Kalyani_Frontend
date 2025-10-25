@@ -4,12 +4,12 @@ const features = [
   {
     icon: Shield,
     title: "Lifetime Warranty",
-    description: "Complete peace of mind with our comprehensive lifetime warranty on all Jewellery pieces",
+    description: "Complete peace of mind with our comprehensive lifetime warranty on all jewelry pieces",
   },
   {
     icon: Sparkles,
     title: "Custom Design Services",
-    description: "Collaborate with our master craftsmen to create your unique, one-of-a-kind Jewellery",
+    description: "Collaborate with our master craftsmen to create your unique, one-of-a-kind jewelry",
   },
   {
     icon: Award,

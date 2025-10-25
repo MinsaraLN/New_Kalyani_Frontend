@@ -9,7 +9,7 @@ const Footer = () => {
           <div>
             <h3 className="text-2xl font-display font-bold mb-4">New Kalyani Jewellers</h3>
             <p className="font-body text-primary-foreground/80 mb-4">
-              Crafting timeless elegance since 1989. We blend traditional craftsmanship with contemporary design to create Jewellery that tells your unique story.
+              Crafting timeless elegance since 1995. We blend traditional craftsmanship with contemporary design to create jewelry that tells your unique story.
             </p>
           </div>
 
@@ -18,22 +18,22 @@ const Footer = () => {
             <h4 className="text-lg font-display font-semibold mb-4">Quick Links</h4>
             <ul className="space-y-2 font-body">
               <li>
-                <a href="/about" className="text-primary-foreground/80 hover:text-primary-foreground transition-smooth">
+                <a href="#" className="text-primary-foreground/80 hover:text-primary-foreground transition-smooth">
                   About Us
                 </a>
               </li>
               <li>
-                <a href="/collections" className="text-primary-foreground/80 hover:text-primary-foreground transition-smooth">
+                <a href="#collections" className="text-primary-foreground/80 hover:text-primary-foreground transition-smooth">
                   Collections
                 </a>
               </li>
               <li>
-                <a href="/custom-design" className="text-primary-foreground/80 hover:text-primary-foreground transition-smooth">
+                <a href="#custom" className="text-primary-foreground/80 hover:text-primary-foreground transition-smooth">
                   Custom Design
                 </a>
               </li>
               <li>
-                <a href="/care-guide" className="text-primary-foreground/80 hover:text-primary-foreground transition-smooth">
+                <a href="#" className="text-primary-foreground/80 hover:text-primary-foreground transition-smooth">
                   Care Guide
                 </a>
               </li>
@@ -45,18 +45,23 @@ const Footer = () => {
             <h4 className="text-lg font-display font-semibold mb-4">Customer Service</h4>
             <ul className="space-y-2 font-body">
               <li>
-                <a href="/warranty-info" className="text-primary-foreground/80 hover:text-primary-foreground transition-smooth">
+                <a href="#" className="text-primary-foreground/80 hover:text-primary-foreground transition-smooth">
                   Warranty Information
                 </a>
               </li>
               <li>
-                <a href="/sizing-guide" className="text-primary-foreground/80 hover:text-primary-foreground transition-smooth">
+                <a href="#" className="text-primary-foreground/80 hover:text-primary-foreground transition-smooth">
                   Sizing Guide
                 </a>
               </li>
               <li>
-                <a href="/jewellery-repairs" className="text-primary-foreground/80 hover:text-primary-foreground transition-smooth">
-                  Jewellery Repairs
+                <a href="#" className="text-primary-foreground/80 hover:text-primary-foreground transition-smooth">
+                  Returns & Exchanges
+                </a>
+              </li>
+              <li>
+                <a href="#" className="text-primary-foreground/80 hover:text-primary-foreground transition-smooth">
+                  FAQ
                 </a>
               </li>
             </ul>
@@ -68,17 +73,17 @@ const Footer = () => {
             <ul className="space-y-3 font-body">
               <li className="flex items-start gap-2">
                 <Phone className="h-5 w-5 mt-0.5 flex-shrink-0" />
-                <span className="text-primary-foreground/80">+94 112 257 1482</span>
+                <span className="text-primary-foreground/80">+94 11 234 5678</span>
               </li>
               <li className="flex items-start gap-2">
                 <Mail className="h-5 w-5 mt-0.5 flex-shrink-0" />
-                <span className="text-primary-foreground/80">newkalyanijewellers.com</span>
+                <span className="text-primary-foreground/80">info@newkalyanijewellers.lk</span>
               </li>
               <li className="flex items-start gap-2">
                 <MapPin className="h-5 w-5 mt-0.5 flex-shrink-0" />
                 <span className="text-primary-foreground/80">
-                  475/A Kaduwela Rd<br />
-                  Sri Jayawardenepura Kotte, Sri Lanka
+                  123 Main Street<br />
+                  Colombo, Sri Lanka
                 </span>
               </li>
             </ul>
@@ -93,9 +98,7 @@ const Footer = () => {
             </p>
             <div className="flex gap-4">
               <a
-                href="https://www.facebook.com/Newkalyanijewellers/" // ← Replace with your actual page URL
-                target="_blank"
-                rel="noopener noreferrer"
+                href="#"
                 className="bg-primary-foreground/10 hover:bg-primary-foreground/20 p-2 rounded-full transition-smooth"
                 aria-label="Facebook"
               >
@@ -108,9 +111,8 @@ const Footer = () => {
               >
                 <Instagram className="h-5 w-5" />
               </a>
-              <a href="https://wa.me/94767888657?text=<encoded_message>"
-                target="_blank"
-                rel="noopener noreferrer"
+              <a
+                href="#"
                 className="bg-primary-foreground/10 hover:bg-primary-foreground/20 p-2 rounded-full transition-smooth"
                 aria-label="WhatsApp"
               >

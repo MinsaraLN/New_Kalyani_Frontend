@@ -1,5 +1,4 @@
 import { Button } from "@/components/ui/button";
-import { Link } from "react-router-dom";
 import bridalImg from "@/assets/collection-bridal.jpg";
 import gemsImg from "@/assets/collection-gems.jpg";
 import chainsImg from "@/assets/collection-chains.jpg";
@@ -9,26 +8,22 @@ const collections = [
   {
     image: bridalImg,
     title: "Bridal Collection",
-    description: "Celebrate your eternal love with our exquisite bridal Jewellery, crafted to perfection for your special day.",
-    link: "/bridal"
+    description: "Celebrate your eternal love with our exquisite bridal jewelry, crafted to perfection for your special day.",
   },
   {
     image: gemsImg,
     title: "Precious Gems",
     description: "Discover the brilliance of certified gemstones set in stunning designs that captivate and inspire.",
-    link: "/gems"
   },
   {
     image: chainsImg,
     title: "Gold Chains",
     description: "Timeless elegance in every link. Our gold chain collection combines tradition with contemporary style.",
-    link: "/jewellery/chains",
   },
   {
     image: ringsImg,
     title: "Gemstone Rings",
     description: "From engagement to statement pieces, our rings showcase exceptional craftsmanship and beauty.",
-    link: "/jewellery/ring"
   },
 ];
 
@@ -58,8 +53,8 @@ const FeaturedCollections = () => {
                   className="w-full h-80 object-cover group-hover:scale-110 transition-elegant"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent opacity-0 group-hover:opacity-100 transition-elegant flex items-end p-6">
-                  <Button asChild variant="hero" size="sm">
-                    <Link to={collection.link}>View Collection</Link>
+                  <Button variant="hero" size="sm">
+                    View Collection
                   </Button>
                 </div>
               </div>
@@ -71,15 +66,6 @@ const FeaturedCollections = () => {
               </p>
             </div>
           ))}
-        </div>
-        
-        {/* Explore Collections Button */}
-        <div className="text-center mt-12">
-          <Link to="/bridal">
-            <Button size="lg" variant="default">
-              Explore Our Collections
-            </Button>
-          </Link>
         </div>
       </div>
     </section>

@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Backend Connection Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+        .test-result {
+            margin: 20px 0;
+            padding: 15px;
+            border-radius: 5px;
+        }
+        .success {
+            background-color: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+        }
+        .error {
+            background-color: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+        }
+        .info {
+            background-color: #d1ecf1;
+            border: 1px solid #bee5eb;
+            color: #0c5460;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 5px;
+            cursor: pointer;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        pre {
+            background-color: #f4f4f4;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔍 Backend Connection Test</h1>
+    <p>Click the buttons below to test backend endpoints:</p>
+
+    <div>
+        <button onclick="testHealth()">Test Health</button>
+        <button onclick="testDatabaseStatus()">Test Database Status</button>
+        <button onclick="testProducts()">Test Products</button>
+        <button onclick="testCategories()">Test Categories</button>
+        <button onclick="testMetals()">Test Metals</button>
+        <button onclick="clearResults()">Clear Results</button>
+    </div>
+
+    <div id="results"></div>
+
+    <script>
+        const API_BASE_URL = 'http://localhost:8088';
+
+        function clearResults() {
+            document.getElementById('results').innerHTML = '';
+        }
+
+        function addResult(title, status, data, error = null) {
+            const resultsDiv = document.getElementById('results');
+            const resultDiv = document.createElement('div');
+            resultDiv.className = `test-result ${status}`;
+            
+            let html = `<h3>${title}</h3>`;
+            if (status === 'success') {
+                html += `<p><strong>✅ Success!</strong></p>`;
+                html += `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+            } else if (status === 'error') {
+                html += `<p><strong>❌ Error!</strong></p>`;
+                html += `<p>${error}</p>`;
+                if (data) {
+                    html += `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+                }
+            } else {
+                html += `<p><strong>ℹ️ ${error || 'Testing...'}</strong></p>`;
+            }
+            
+            resultDiv.innerHTML = html;
+            resultsDiv.insertBefore(resultDiv, resultsDiv.firstChild);
+        }
+
+        async function testHealth() {
+            try {
+                const response = await fetch(`${API_BASE_URL}/api/test/health`);
+                const data = await response.json();
+                addResult('Health Check', 'success', data);
+            } catch (error) {
+                addResult('Health Check', 'error', null, error.message);
+            }
+        }
+
+        async function testDatabaseStatus() {
+            try {
+                const response = await fetch(`${API_BASE_URL}/api/test/db-status`);
+                const data = await response.json();
+                if (data.status === 'CONNECTED') {
+                    addResult('Database Status', 'success', data);
+                } else {
+                    addResult('Database Status', 'error', data, 'Database not connected');
+                }
+            } catch (error) {
+                addResult('Database Status', 'error', null, error.message);
+            }
+        }
+
+        async function testProducts() {
+            try {
+                const response = await fetch(`${API_BASE_URL}/api/products`);
+                const data = await response.json();
+                addResult(`Products (${data.length} found)`, 'success', data);
+            } catch (error) {
+                addResult('Products', 'error', null, error.message);
+            }
+        }
+
+        async function testCategories() {
+            try {
+                const response = await fetch(`${API_BASE_URL}/api/categories`);
+                const data = await response.json();
+                addResult(`Categories (${data.length} found)`, 'success', data);
+            } catch (error) {
+                addResult('Categories', 'error', null, error.message);
+            }
+        }
+
+        async function testMetals() {
+            try {
+                const response = await fetch(`${API_BASE_URL}/api/metals`);
+                const data = await response.json();
+                addResult(`Metals (${data.length} found)`, 'success', data);
+            } catch (error) {
+                addResult('Metals', 'error', null, error.message);
+            }
+        }
+
+        // Auto-test on load
+        window.onload = async function() {
+            addResult('Starting Tests', 'info', null, 'Testing backend connectivity...');
+            await new Promise(resolve => setTimeout(resolve, 500));
+            await testHealth();
+            await new Promise(resolve => setTimeout(resolve, 500));
+            await testDatabaseStatus();
+            await new Promise(resolve => setTimeout(resolve, 500));
+            await testProducts();
+            await new Promise(resolve => setTimeout(resolve, 500));
+            await testCategories();
+            await new Promise(resolve => setTimeout(resolve, 500));
+            await testMetals();
+        };
+    </script>
+</body>
+</html>

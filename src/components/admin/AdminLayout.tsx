@@ -8,10 +8,6 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useAuth } from "@/contexts/AuthContext";
-
-
-
 
 const navigationItems = [
   { icon: Home, label: "Dashboard", path: "/admin" },
@@ -25,41 +21,23 @@ const navigationItems = [
   { icon: Star, label: "Reviews", path: "/admin/reviews" },
 ];
 
-
-
 export default function AdminLayout() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
-  const { user, logout } = useAuth();
 
-
-// Get roleId from localStorage and convert to number
-
-  const roleId = Number(localStorage.getItem("roleId"));
-  const roleName = localStorage.getItem("roleName");
-
-  // Filter items based on roleId
-  const filteredItems = navigationItems.filter((item) => {
-    if (item.label === "Users & Roles" && (roleName ?? "").toLowerCase() !== "admin") {
-      return false;
-    }
-    return true;
-  });
-
-  const handleLogout = () => {  
-    logout();
+  const handleLogout = () => {
     navigate("/");
   };
 
   const getBreadcrumbs = () => {
     const paths = location.pathname.split("/").filter(Boolean);
     return paths.map((path, index) => ({
-        label: path.charAt(0).toUpperCase() + path.slice(1),
-        path: "/" + paths.slice(0, index + 1).join("/"),
-      }))
-      .filter(crumb => crumb.label !== "Admin"); // remove 'Admin'
-  };  
+      label: path.charAt(0).toUpperCase() + path.slice(1),
+      path: "/" + paths.slice(0, index + 1).join("/"),
+    }));
+  };
+
   const breadcrumbs = getBreadcrumbs();
 
   return (
@@ -71,13 +49,13 @@ export default function AdminLayout() {
           <div className="flex items-center justify-center px-4 mb-8">
             <Link to="/admin" className="flex flex-col items-center">
               <h1 className="text-2xl font-display font-bold text-primary">New Kalyani Jewellers</h1>
-              <p className="text-sm text-muted-foreground">{`${roleName} Panel`}</p>
+              <p className="text-sm text-muted-foreground">Admin Panel</p>
             </Link>
           </div>
 
           {/* Navigation */}
           <nav className="flex-1 px-4 space-y-2">
-            {filteredItems.map((item) => {
+            {navigationItems.map((item) => {
               const isActive = location.pathname === item.path;
               return (
                 <Link
@@ -107,7 +85,7 @@ export default function AdminLayout() {
               <div className="flex items-center justify-between px-4 py-5">
                 <Link to="/admin" className="flex flex-col" onClick={() => setSidebarOpen(false)}>
                   <h1 className="text-xl font-display font-bold text-primary">New Kalyani Jewellers</h1>
-                  {/* <p className="text-xs text-muted-foreground">Admin Panel</p> */}
+                  <p className="text-xs text-muted-foreground">Admin Panel</p>
                 </Link>
                 <Button variant="ghost" size="icon" onClick={() => setSidebarOpen(false)}>
                   <X className="h-5 w-5" />
@@ -115,7 +93,7 @@ export default function AdminLayout() {
               </div>
 
               <nav className="flex-1 px-4 space-y-2">
-                {filteredItems.map((item) => {
+                {navigationItems.map((item) => {
                   const isActive = location.pathname === item.path;
                   return (
                     <Link
@@ -173,22 +151,18 @@ export default function AdminLayout() {
 
             {/* Right side */}
             <div className="flex items-center gap-4">
-              {/* <Button variant="ghost" size="icon" className="relative">
+              <Button variant="ghost" size="icon" className="relative">
                 <Bell className="h-5 w-5" />
                 <span className="absolute top-1 right-1 w-2 h-2 bg-destructive rounded-full" />
-              </Button> */}
+              </Button>
 
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button variant="ghost" className="flex items-center gap-2">
                     <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
-                      <span className="text-sm font-medium text-primary">
-                        {user?.userFname?.charAt(0) || 'A'}
-                      </span>
+                      <span className="text-sm font-medium text-primary">A</span>
                     </div>
-                    <span className="hidden sm:inline text-sm font-medium">
-                      {`${roleName}`}
-                    </span>
+                    <span className="hidden sm:inline text-sm font-medium">Admin User</span>
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end" className="w-48">

@@ -1,15 +1,17 @@
-import { useEffect, useState } from "react";
-import { Menu, Search, ShoppingBag, X, LogIn} from "lucide-react";
+import { useState, useEffect } from "react";
+import { Menu, Search, ShoppingBag, X, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import {
   NavigationMenu,
   NavigationMenuContent,
   NavigationMenuItem,
+  NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
-import axiosInstance from "@/lib/axios";
+import { useQuery } from "@tanstack/react-query";
+import { apiClient, CategoryDTO } from "@/lib/api";
 import categoryNecklaces from "@/assets/category-necklaces.jpg";
 import categoryChains from "@/assets/category-chains.jpg";
 import categoryPendants from "@/assets/category-pendants.jpg";
@@ -17,103 +19,49 @@ import categoryBangles from "@/assets/category-bangles.jpg";
 import categoryEarrings from "@/assets/category-earrings.jpg";
 import categoryRings from "@/assets/category-rings.jpg";
 
-// Backend category interface
-interface CategoryDTO {
-  categoryId: number;
-  name: string;
-}
+// Category image mapping for existing categories
+const categoryImageMap: Record<string, any> = {
+  "necklaces": categoryNecklaces,
+  "chains": categoryChains,
+  "pendants": categoryPendants,
+  "bangles": categoryBangles,
+  "earrings": categoryEarrings,
+  "rings": categoryRings,
+};
 
-// Frontend category interface with image mapping
-interface CategoryWithImage {
-  categoryId: number;
-  name: string;
-  href: string;
-  image: string;
-}
+// Default image for new categories
+const defaultCategoryImage = categoryRings;
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isSearchOpen, setIsSearchOpen] = useState(false);
-  const [categories, setCategories] = useState<CategoryWithImage[]>([]);
-  const [categoriesLoading, setCategoriesLoading] = useState(true);
-
-  // Image mapping for categories
-  const categoryImageMap: Record<string, string> = {
-    'necklaces': categoryNecklaces,
-    'chains': categoryChains,
-    'pendants': categoryPendants,
-    'bangles': categoryBangles,
-    'earrings': categoryEarrings,
-    'rings': categoryRings,
-  };
-
-  // Fetch categories from backend
-  useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        setCategoriesLoading(true);
-        console.log('Fetching categories from backend...');
-        const response = await axiosInstance.get('/api/categories');
-        console.log('Categories response:', response.data);
-        
-        const backendCategories = response.data as CategoryDTO[];
-        
-        // Map backend categories to frontend format with images
-        const categoriesWithImages = backendCategories.map(category => ({
-          categoryId: category.categoryId,
-          name: category.name,
-          href: `/jewellery/${category.name.toLowerCase()}`,
-          image: categoryImageMap[category.name.toLowerCase()] || categoryRings // fallback to rings image
-        }));
-        
-        setCategories(categoriesWithImages);
-        console.log('Categories loaded successfully:', categoriesWithImages.length, 'categories');
-      } catch (error: any) {
-        console.error('Error fetching categories:', error);
-        console.error('Error details:', error.response?.data);
-        
-        // Fallback to hardcoded categories if backend fails
-        const fallbackCategories = [
-          { categoryId: 1, name: "Necklaces", href: "/jewellery/necklaces", image: categoryNecklaces },
-          { categoryId: 2, name: "Chains", href: "/jewellery/chains", image: categoryChains },
-          { categoryId: 3, name: "Pendants", href: "/jewellery/pendants", image: categoryPendants },
-          { categoryId: 4, name: "Bangles", href: "/jewellery/bangles", image: categoryBangles },
-          { categoryId: 5, name: "Earrings", href: "/jewellery/earrings", image: categoryEarrings },
-          { categoryId: 6, name: "Rings", href: "/jewellery/rings", image: categoryRings },
-        ];
-        setCategories(fallbackCategories);
-        console.log('Using fallback categories due to backend error');
-      } finally {
-        setCategoriesLoading(false);
-      }
-    };
-
-    fetchCategories();
-  }, []);
-
-  // Handle keyboard navigation
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
-        setIsMenuOpen(false);
-      }
-    };
-
-    document.addEventListener('keydown', handleKeyDown);
-    return () => document.removeEventListener('keydown', handleKeyDown);
-  }, []);
 
   const menuItems = [
     { label: "Home", href: "/" },
-    { label: "Bridal", href: "/bridal" },
-    { label: "Custom Design", href: "/custom-design" },
-    { label: "About", href: "/about" },
-    { label: "Contact", href: "/contact" },
+    { label: "Bridal", href: "#bridal" },
+    { label: "Custom Design", href: "#custom" },
+    { label: "About", href: "#about" },
+    { label: "Contact", href: "#contact" },
   ];
 
-// Categories are now fetched dynamically from backend
+  // Fetch categories from API
+  const { data: categories = [] } = useQuery({
+    queryKey: ['categories'],
+    queryFn: () => apiClient.getCategories()
+  });
 
-// Latest products removed - will be fetched dynamically if needed
+  // Map API categories to navigation format
+  const jewelleryCategories = categories.map((category: CategoryDTO) => ({
+    name: category.name,
+    href: `/jewellery/${category.name.toLowerCase()}`,
+    image: categoryImageMap[category.name.toLowerCase()] || defaultCategoryImage,
+  }));
+
+const latestProducts = [
+  { id: "P6094", name: "Gold Ring P6094", image: "/placeholder.svg" },
+  { id: "K4156", name: "Gold Ring K4156", image: "/placeholder.svg" },
+  { id: "T11299", name: "Bracelet 5-T11299", image: "/placeholder.svg" },
+  { id: "T5756", name: "Pendant T5756", image: "/placeholder.svg" },
+];
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-card/95 backdrop-blur-sm border-b border-border elegant-shadow">
@@ -143,8 +91,6 @@ const Header = () => {
             >
               Home
             </Link>
-
-            
             
             <NavigationMenu>
               <NavigationMenuList>
@@ -161,16 +107,7 @@ const Header = () => {
                             Our Jewellery
                           </h3>
                           <div className="grid grid-cols-2 gap-4">
-                            {categoriesLoading ? (
-                              // Loading state
-                              [...Array(6)].map((_, index) => (
-                                <div key={index} className="flex flex-col items-center space-y-2 p-2 rounded-lg">
-                                  <div className="w-16 h-16 rounded-full bg-gray-200 animate-pulse"></div>
-                                  <div className="h-4 w-16 bg-gray-200 rounded animate-pulse"></div>
-                                </div>
-                              ))
-                            ) : (
-                              categories.map((category) => (
+                            {jewelleryCategories.map((category) => (
                               <Link
                                 key={category.name}
                                 to={category.href}
@@ -187,12 +124,11 @@ const Header = () => {
                                   {category.name}
                                 </div>
                               </Link>
-                              ))
-                            )}
+                            ))}
                           </div>
                         </div>
 
-                        {/* LATEST PRODUCTS Section }
+                        {/* LATEST PRODUCTS Section */}
                         <div className="col-span-5">
                           <h3 className="text-2xl font-display font-bold text-foreground mb-6 uppercase tracking-wide">
                             Latest Products
@@ -219,7 +155,7 @@ const Header = () => {
                               </Link>
                             ))}
                           </div>
-                        </div>*/}
+                        </div>
 
                         {/* Promotional Image */}
                         <div className="col-span-4">
@@ -258,46 +194,14 @@ const Header = () => {
 
           {/* Right Side Icons */}
           <div className="flex items-center gap-2">
-            {/*<Button variant="ghost" size="icon" aria-label="Search">
-              <Search className="h-5 w-5" />
-            </Button>*/}
-            <Button 
-              variant="ghost" 
-              size="icon" 
-              aria-label="Search"
-              onClick={() => setIsSearchOpen(!isSearchOpen)}
-            >
+            <Button variant="ghost" size="icon" aria-label="Search">
               <Search className="h-5 w-5" />
             </Button>
-            <Link to="/auth/login">
-              <Button 
-                variant="ghost" 
-                size="icon" 
-                aria-label="User Login"
-              >
-                <LogIn className="h-5 w-5" />
-              </Button>
-            </Link>
             <Button variant="ghost" size="icon" aria-label="Shopping bag">
               <ShoppingBag className="h-5 w-5" />
             </Button>
           </div>
         </div>
-
-        {/* Search Bar */}
-        {isSearchOpen && (
-          <div className="py-4 border-t border-border animate-fade-in">
-            <form onSubmit={(e) => { e.preventDefault(); const formData = new FormData(e.currentTarget); window.location.href = `/search?q=${formData.get('q')}`; }} className="flex gap-2">
-              <input
-                type="text"
-                name="q"
-                placeholder="Search for Jewellery..."
-                className="flex-1 px-4 py-2 border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
-              />
-              <Button type="submit">Search</Button>
-            </form>
-          </div>
-        )}
 
         {/* Mobile Navigation */}
         {isMenuOpen && (
@@ -317,13 +221,7 @@ const Header = () => {
               <div className="pt-2">
                 <div className="text-base font-body font-medium text-foreground pb-2">Jewellery</div>
                 <div className="flex flex-col space-y-2 pl-4">
-                  {categoriesLoading ? (
-                    // Loading state
-                    [...Array(6)].map((_, index) => (
-                      <div key={index} className="h-4 w-20 bg-gray-200 rounded animate-pulse"></div>
-                    ))
-                  ) : (
-                    categories.map((category) => (
+                  {jewelleryCategories.map((category) => (
                     <Link
                       key={category.name}
                       to={category.href}
@@ -333,8 +231,7 @@ const Header = () => {
                       <img src={category.image} alt={category.name} className="w-6 h-6 rounded-full object-cover" />
                       {category.name}
                     </Link>
-                    ))
-                  )}
+                  ))}
                 </div>
               </div>
             </div>

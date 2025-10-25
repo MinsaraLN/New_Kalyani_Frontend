@@ -1,6 +1,5 @@
 import { Button } from "@/components/ui/button";
 import promoBanner from "@/assets/promo-bridal.jpg";
-import { Link } from "react-router-dom";
 
 const PromotionalBanner = () => {
   return (
@@ -27,17 +26,15 @@ const PromotionalBanner = () => {
                   Our signature bridal collection features timeless designs crafted with the finest diamonds and precious metals. Each piece is a testament to enduring love and exceptional craftsmanship.
                 </p>
                 <p className="text-lg font-body mb-8 text-card/90">
-                  Make your special day truly unforgettable with Jewellery as unique as your love story.
+                  Make your special day truly unforgettable with jewelry as unique as your love story.
                 </p>
                 <div className="flex flex-wrap gap-4">
-                  <Link to="/bridal">
                   <Button variant="hero" size="xl">
                     Explore Bridal Collection
                   </Button>
-                  </Link>
-                  {/*<Button variant="outline" size="xl" className="bg-card/10 backdrop-blur-sm border-card text-card hover:bg-card hover:text-primary">
+                  <Button variant="outline" size="xl" className="bg-card/10 backdrop-blur-sm border-card text-card hover:bg-card hover:text-primary">
                     Book Consultation
-                  </Button>*/}
+                  </Button>
                 </div>
               </div>
             </div>
