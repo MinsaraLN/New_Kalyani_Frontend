@@ -3,6 +3,9 @@ import { Link } from "react-router-dom";
 import { Card } from "@/components/ui/card";
 import { useQuery } from "@tanstack/react-query";
 import { apiClient } from "@/lib/api";
+import axiosInstance from "@/lib/axios";
+
+  
 
 const dashboardCards = [
   {
@@ -17,7 +20,7 @@ const dashboardCards = [
     id: 2,
     icon: Gem,
     title: "Product Management",
-    description: "Add, edit, and organize jewelry products and collections",
+    description: "Add, edit, and organize Jewellery products and collections",
     link: "/admin/products",
     color: "text-[--gold-0]"
   },
@@ -72,7 +75,7 @@ const dashboardCards = [
 ];
 
 export default function AdminDashboard() {
-  // Fetch real data for dashboard stats
+  // Fetch dynamic data
   const { data: products = [] } = useQuery({
     queryKey: ['products'],
     queryFn: () => apiClient.getProducts()
@@ -93,34 +96,93 @@ export default function AdminDashboard() {
     queryFn: () => apiClient.getGems()
   });
 
+  const userLname = localStorage.getItem("userLname");
+  const userFname = localStorage.getItem("userFname");
+  
+  // Branches
+  const { data: allBranches = [] } = useQuery({
+    queryKey: ["branches"],
+    queryFn: () => axiosInstance.get("/api/branches/allBranches").then(res => res.data),
+  });
+
+  // Service Requests + Custom Designs
+  const { data: allRequests = [] } = useQuery({
+    queryKey: ["requests"],
+    queryFn: async () => {
+      const [ticketsRes, designsRes] = await Promise.all([
+        axiosInstance.get("/api/serviceticket/tickets"),
+        axiosInstance.get("/api/customdesign/designs")
+      ]);
+      return [...ticketsRes.data, ...designsRes.data];
+    }
+  });
+
+  // Reviews
+  const { data: allReviews = [] } = useQuery({
+    queryKey: ["reviews"],
+    queryFn: () => axiosInstance.get("/api/reviews/adminQueue").then(res => res.data),
+  });
+
+  // Convert to numbers for dashboard display
+  const numberOfBranches = allBranches.length || 0;
+  const numberOfRequests = allRequests.length || 0;
+  const numberOfReviews = allReviews.length || 0;
+  console.log("reviews "+numberOfReviews)
+
   return (
     <div className="space-y-8">
       <div>
         <h1 className="text-4xl font-display font-bold text-foreground mb-2">
-          Welcome back, Admin
+           {`Welcome back, ${userFname} ${userLname}`}
         </h1>
         <p className="text-muted-foreground">
-          Manage your jewelry store operations from this dashboard
+          Manage your Jewellery store operations from this dashboard
         </p>
       </div>
 
-      {/* Quick Statistics */}
+      {/* Quick Statistics (7 total) */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+
+        {/* 1 - Total Branches (you can make this dynamic later if needed) */}
+        <Card className="p-6 card-shadow hover:elegant-shadow transition-all">
+          <div className="text-sm text-muted-foreground mb-1">Total Branches</div>
+          <div className="text-3xl font-display font-bold text-[--gold-0]">{numberOfBranches || 0}</div>
+        </Card>
+
+        {/* 2 - Total Products (dynamic) */}
         <Card className="p-6 card-shadow hover:elegant-shadow transition-all">
           <div className="text-sm text-muted-foreground mb-1">Total Products</div>
-          <div className="text-3xl font-display font-bold text-[--gold-0]">{products.length}</div>
+          <div className="text-3xl font-display font-bold text-[--gold-0]">{products.length || 0}</div>
         </Card>
+
+        {/* 3 - Pending Requests (hardcoded) */}
+        <Card className="p-6 card-shadow hover:elegant-shadow transition-all">
+          <div className="text-sm text-muted-foreground mb-1">Pending Requests</div>
+          <div className="text-3xl font-display font-bold text-[--gold-0]">{numberOfRequests || 0}</div>
+        </Card>
+
+        {/* 4 - Pending Reviews (hardcoded) */}
+        <Card className="p-6 card-shadow hover:elegant-shadow transition-all">
+          <div className="text-sm text-muted-foreground mb-1">Pending Reviews</div>
+          <div className="text-3xl font-display font-bold text-[--gold-0]">{numberOfReviews || 0}</div>
+        </Card>
+
+        {/* 5 - Total Categories (dynamic) */}
         <Card className="p-6 card-shadow hover:elegant-shadow transition-all">
           <div className="text-sm text-muted-foreground mb-1">Total Categories</div>
-          <div className="text-3xl font-display font-bold text-[--gold-0]">{categories.length}</div>
+          <div className="text-3xl font-display font-bold text-[--gold-0]">{categories.length || 0}</div>
         </Card>
+
+        {/* 6 - Total Metals (dynamic) */}
         <Card className="p-6 card-shadow hover:elegant-shadow transition-all">
           <div className="text-sm text-muted-foreground mb-1">Total Metals</div>
-          <div className="text-3xl font-display font-bold text-[--gold-0]">{metals.length}</div>
+          <div className="text-3xl font-display font-bold text-[--gold-0]">{metals.length || 0}</div>
         </Card>
+
+        {/* 7 - Total Gems (dynamic) */}
         <Card className="p-6 card-shadow hover:elegant-shadow transition-all">
           <div className="text-sm text-muted-foreground mb-1">Total Gems</div>
-          <div className="text-3xl font-display font-bold text-[--gold-0]">{gems.length}</div>
+          <div className="text-3xl font-display font-bold text-[--gold-0]">{gems.length || 0}</div>
         </Card>
       </div>
 
