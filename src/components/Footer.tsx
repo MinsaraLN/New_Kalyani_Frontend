@@ -18,22 +18,38 @@ const Footer = () => {
             <h4 className="text-lg font-display font-semibold mb-4">Quick Links</h4>
             <ul className="space-y-2 font-body">
               <li>
+<<<<<<< HEAD
                 <a href="#" className="text-primary-foreground/80 hover:text-primary-foreground transition-smooth">
+=======
+                <a href="/about" className="text-primary-foreground/80 hover:text-primary-foreground transition-smooth">
+>>>>>>> master
                   About Us
                 </a>
               </li>
               <li>
+<<<<<<< HEAD
                 <a href="#collections" className="text-primary-foreground/80 hover:text-primary-foreground transition-smooth">
+=======
+                <a href="/collections" className="text-primary-foreground/80 hover:text-primary-foreground transition-smooth">
+>>>>>>> master
                   Collections
                 </a>
               </li>
               <li>
+<<<<<<< HEAD
                 <a href="#custom" className="text-primary-foreground/80 hover:text-primary-foreground transition-smooth">
+=======
+                <a href="/custom-design" className="text-primary-foreground/80 hover:text-primary-foreground transition-smooth">
+>>>>>>> master
                   Custom Design
                 </a>
               </li>
               <li>
+<<<<<<< HEAD
                 <a href="#" className="text-primary-foreground/80 hover:text-primary-foreground transition-smooth">
+=======
+                <a href="/care-guide" className="text-primary-foreground/80 hover:text-primary-foreground transition-smooth">
+>>>>>>> master
                   Care Guide
                 </a>
               </li>
@@ -45,16 +61,25 @@ const Footer = () => {
             <h4 className="text-lg font-display font-semibold mb-4">Customer Service</h4>
             <ul className="space-y-2 font-body">
               <li>
+<<<<<<< HEAD
                 <a href="#" className="text-primary-foreground/80 hover:text-primary-foreground transition-smooth">
+=======
+                <a href="/warranty-info" className="text-primary-foreground/80 hover:text-primary-foreground transition-smooth">
+>>>>>>> master
                   Warranty Information
                 </a>
               </li>
               <li>
+<<<<<<< HEAD
                 <a href="#" className="text-primary-foreground/80 hover:text-primary-foreground transition-smooth">
+=======
+                <a href="/sizing-guide" className="text-primary-foreground/80 hover:text-primary-foreground transition-smooth">
+>>>>>>> master
                   Sizing Guide
                 </a>
               </li>
               <li>
+<<<<<<< HEAD
                 <a href="#" className="text-primary-foreground/80 hover:text-primary-foreground transition-smooth">
                   Returns & Exchanges
                 </a>
@@ -62,6 +87,10 @@ const Footer = () => {
               <li>
                 <a href="#" className="text-primary-foreground/80 hover:text-primary-foreground transition-smooth">
                   FAQ
+=======
+                <a href="/jewellery-repairs" className="text-primary-foreground/80 hover:text-primary-foreground transition-smooth">
+                  Jewellery Repairs
+>>>>>>> master
                 </a>
               </li>
             </ul>
@@ -73,17 +102,30 @@ const Footer = () => {
             <ul className="space-y-3 font-body">
               <li className="flex items-start gap-2">
                 <Phone className="h-5 w-5 mt-0.5 flex-shrink-0" />
+<<<<<<< HEAD
                 <span className="text-primary-foreground/80">+94 11 234 5678</span>
               </li>
               <li className="flex items-start gap-2">
                 <Mail className="h-5 w-5 mt-0.5 flex-shrink-0" />
                 <span className="text-primary-foreground/80">info@newkalyanijewellers.lk</span>
+=======
+                <span className="text-primary-foreground/80">+1 (555) 123-4567</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <Mail className="h-5 w-5 mt-0.5 flex-shrink-0" />
+                <span className="text-primary-foreground/80">contact@lumierejewels.com</span>
+>>>>>>> master
               </li>
               <li className="flex items-start gap-2">
                 <MapPin className="h-5 w-5 mt-0.5 flex-shrink-0" />
                 <span className="text-primary-foreground/80">
+<<<<<<< HEAD
                   123 Main Street<br />
                   Colombo, Sri Lanka
+=======
+                  123 Jewelry Lane<br />
+                  Luxury District, City 12345
+>>>>>>> master
                 </span>
               </li>
             </ul>

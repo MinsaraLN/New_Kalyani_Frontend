@@ -2,6 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
+<<<<<<< HEAD
 /* Sliding carousel animation */
 @keyframes scroll {
   0% {
@@ -12,6 +13,8 @@
   }
 }
 
+=======
+>>>>>>> master
 /* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
 All colors MUST be HSL.
 */
