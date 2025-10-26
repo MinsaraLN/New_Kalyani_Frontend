@@ -2,13 +2,26 @@
 @tailwind components;
 @tailwind utilities;
 
+<<<<<<< HEAD
+/* Sliding carousel animation */
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+=======
+>>>>>>> master
 /* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
 All colors MUST be HSL.
 */
 
 @layer base {
   :root {
-    /* Core Colors - Jewellery Brand Palette */
+    /* Core Colors - Jewelry Brand Palette */
     --background: 30 33% 93%; /* Beige background */
     --foreground: 213 30% 27%; /* Navy text */
 
@@ -39,7 +52,7 @@ All colors MUST be HSL.
 
     --radius: 0.5rem;
 
-    /* Custom Jewellery Tokens */
+    /* Custom Jewelry Tokens */
     --navy: 213 30% 27%;
     --teal: 216 24% 45%;
     --sky-blue: 202 42% 82%;
