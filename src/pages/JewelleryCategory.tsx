@@ -305,12 +305,6 @@ const JewelleryCategory = () => {
                         <div className="space-y-1 text-sm text-muted-foreground">
                           <p>Category: {product.category.name}</p>
                           <p>Metal: {product.metal.metalType} - {product.metal.metalPurity}</p>
-                          <p>Price: LKR {product.initialProductionCost.toLocaleString()}</p>
-                          {product.quantity > 0 ? (
-                            <p className="text-green-600">In Stock ({product.quantity})</p>
-                          ) : (
-                            <p className="text-red-600">Out of Stock</p>
-                          )}
                         </div>
                       </div>
                     </Card>

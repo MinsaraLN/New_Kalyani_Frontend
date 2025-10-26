@@ -9,11 +9,11 @@ import product1 from "@/assets/product-1.jpg";
 import product2 from "@/assets/product-2.jpg";
 import product3 from "@/assets/product-3.jpg";
 
-const allProducts = [
-  { id: "JW001", name: "Diamond Solitaire Ring", category: "Rings", metal: "18K Gold", image: product1 },
-  { id: "JW002", name: "Pearl Necklace Set", category: "Necklaces", metal: "22K Gold", image: product2 },
-  { id: "JW003", name: "Emerald Drop Earrings", category: "Earrings", metal: "18K Gold", image: product3 },
-];
+// const allProducts = [
+//   { id: "JW001", name: "Diamond Solitaire Ring", category: "Rings", metal: "18K Gold", image: product1 },
+//   { id: "JW002", name: "Pearl Necklace Set", category: "Necklaces", metal: "22K Gold", image: product2 },
+//   { id: "JW003", name: "Emerald Drop Earrings", category: "Earrings", metal: "18K Gold", image: product3 },
+// ];
 
 const SearchResults = () => {
   const [searchParams] = useSearchParams();

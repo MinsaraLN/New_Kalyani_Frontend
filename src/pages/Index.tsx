@@ -3,7 +3,7 @@ import Header from "@/components/Header";
 import HeroCarousel from "@/components/HeroCarousel";
 import FeaturedCollections from "@/components/FeaturedCollections";
 import PromotionalBanner from "@/components/PromotionalBanner";
-import ProductGrid from "@/components/ProductGrid";
+import BestSellingPieces from "@/components/BestSellingPieces";
 import TrustBadges from "@/components/TrustBadges";
 import StoreLocator from "@/components/StoreLocator";
 import ReviewsDisplay from "@/components/ReviewsDisplay";
@@ -17,9 +17,10 @@ const Index = () => {
   const [isReviewDialogOpen, setIsReviewDialogOpen] = useState(false);
 
   const handleReviewSuccess = () => {
+    // e.preventDefault();
     setIsReviewDialogOpen(false);
     // Optionally refresh the reviews display
-    window.location.reload();
+    // window.location.reload();
   };
 
   return (
@@ -28,7 +29,7 @@ const Index = () => {
       <HeroCarousel />
       <FeaturedCollections />
       <PromotionalBanner />
-      <ProductGrid />
+      <BestSellingPieces />
       <TrustBadges />
       <StoreLocator />
       <ReviewsDisplay 

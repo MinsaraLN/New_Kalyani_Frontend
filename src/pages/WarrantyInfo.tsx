@@ -56,8 +56,8 @@ const WarrantyInfo = () => {
       {/* Hero Section */}
       <section className="bg-gradient-hero py-16 text-center">
         <div className="container mx-auto px-4">
-          <h1 className="font-display text-5xl md:text-6xl text-white mb-4">Warranty Information</h1>
-          <p className="text-white/90 text-xl max-w-2xl mx-auto">
+          <h1 className="font-display text-5xl md:text-6xl text-foreground mb-4">Warranty Information</h1>
+          <p className="text-foreground/90 text-xl max-w-2xl mx-auto">
             Your investment is protected with our comprehensive warranty
           </p>
         </div>

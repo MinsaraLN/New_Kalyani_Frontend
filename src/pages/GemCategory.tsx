@@ -144,11 +144,6 @@ const GemCategory = () => {
                     </h3>
                     <div className="space-y-1 text-sm text-muted-foreground">
                       <p>ID: GM-{gem.gemId.toString().padStart(3, '0')}</p>
-                      {gem.price && gem.price > 0 && (
-                        <p className="text-primary font-medium">
-                          LKR {gem.price.toLocaleString()}
-                        </p>
-                      )}
                     </div>
                   </div>
                 </Card>

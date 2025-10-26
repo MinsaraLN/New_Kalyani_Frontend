@@ -32,29 +32,29 @@ export default function ReviewsDisplay({
         console.error('Error fetching reviews:', err);
         setError('Failed to load reviews');
         // Set some fallback reviews for demo purposes
-        setReviews([
-          {
-            id: '1',
-            authorName: 'Priya Sharma',
-            rating: 5,
-            comment: 'Exceptional craftsmanship and beautiful designs. The diamond ring I purchased exceeded my expectations!',
-            createdAt: new Date().toISOString()
-          },
-          {
-            id: '2',
-            authorName: 'Rajesh Kumar',
-            rating: 5,
-            comment: 'Amazing quality and service. The gold necklace is absolutely stunning and the staff was very helpful.',
-            createdAt: new Date().toISOString()
-          },
-          {
-            id: '3',
-            authorName: 'Anjali Mehta',
-            rating: 4,
-            comment: 'Great collection and reasonable prices. The custom design service is fantastic!',
-            createdAt: new Date().toISOString()
-          }
-        ]);
+        // setReviews([
+        //   {
+        //     id: '1',
+        //     authorName: 'Priya Sharma',
+        //     rating: 5,
+        //     comment: 'Exceptional craftsmanship and beautiful designs. The diamond ring I purchased exceeded my expectations!',
+        //     createdAt: new Date().toISOString()
+        //   },
+        //   {
+        //     id: '2',
+        //     authorName: 'Rajesh Kumar',
+        //     rating: 5,
+        //     comment: 'Amazing quality and service. The gold necklace is absolutely stunning and the staff was very helpful.',
+        //     createdAt: new Date().toISOString()
+        //   },
+        //   {
+        //     id: '3',
+        //     authorName: 'Anjali Mehta',
+        //     rating: 4,
+        //     comment: 'Great collection and reasonable prices. The custom design service is fantastic!',
+        //     createdAt: new Date().toISOString()
+        //   }
+        // ]);
       } finally {
         setLoading(false);
       }

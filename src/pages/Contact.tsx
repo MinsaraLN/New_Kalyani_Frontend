@@ -68,12 +68,12 @@ const Contact = () => {
             <div className="space-y-3 text-muted-foreground">
               <p className="flex items-start gap-2">
                 <MapPin className="h-5 w-5 flex-shrink-0 mt-1" />
-                <span>123 MG Road, Bangalore, Karnataka 560001</span>
+                <span>475/A Kaduwela Road, Sri Jayawardenepura Kotte, Colombo 560001</span>
               </p>
               <p className="flex items-center gap-2">
                 <Phone className="h-5 w-5 flex-shrink-0" />
-                <a href="tel:+918022345678" className="hover:text-accent transition-smooth">
-                  +91 80 2234 5678
+                <a href="tel:+941122571482" className="hover:text-accent transition-smooth">
+                +94 112 257 1482
                 </a>
               </p>
               <p className="flex items-center gap-2">
@@ -84,8 +84,8 @@ const Contact = () => {
               </p>
               <p className="flex items-center gap-2">
                 <MessageCircle className="h-5 w-5 flex-shrink-0" />
-                <a href="https://wa.me/919876543210" className="hover:text-accent transition-smooth">
-                  +91 98765 43210
+                <a href="https://wa.me/94767888657" className="hover:text-accent transition-smooth">
+                  +94 76 788 8657
                 </a>
               </p>
               <p className="flex items-start gap-2">
@@ -102,8 +102,8 @@ const Contact = () => {
             <div className="space-y-3 text-muted-foreground">
               <p className="flex items-center gap-2">
                 <Phone className="h-5 w-5 flex-shrink-0" />
-                <a href="tel:18001234567" className="hover:text-accent transition-smooth">
-                  1800-123-4567 (Toll Free)
+                <a href="tel:+941122571482" className="hover:text-accent transition-smooth">
+                +94 112 257 1482
                 </a>
               </p>
               <p className="flex items-center gap-2">
@@ -114,8 +114,8 @@ const Contact = () => {
               </p>
               <p className="flex items-center gap-2">
                 <MessageCircle className="h-5 w-5 flex-shrink-0" />
-                <a href="https://wa.me/919876543200" className="hover:text-accent transition-smooth">
-                  +91 98765 43200 (WhatsApp)
+                <a href="https://wa.me/94767888657" className="hover:text-accent transition-smooth">
+                  +94 76 788 8657 (WhatsApp)
                 </a>
               </p>
               <p className="flex items-start gap-2">

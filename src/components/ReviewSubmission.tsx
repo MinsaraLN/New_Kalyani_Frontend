@@ -55,7 +55,7 @@ export default function ReviewSubmission({ onSuccess, className = "" }: ReviewSu
       const reviewData: CustomerReviewRequest = {
         authorName: trimmedAuthorName,
         rating: formData.rating,
-        comment: trimmedComment
+        comment: trimmedComment,  
       };
       
       await axiosInstance.post('/api/reviews/addReview', reviewData);

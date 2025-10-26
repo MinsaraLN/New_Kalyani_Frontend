@@ -6,19 +6,17 @@ import bridalHero from "@/assets/bridal-hero.jpg";
 import bridalNecklaces from "@/assets/bridal-necklaces.jpg";
 import bridalEarrings from "@/assets/bridal-earrings.jpg";
 import bridalBangles from "@/assets/bridal-bangles.jpg";
-import product1 from "@/assets/product-1.jpg";
-import product2 from "@/assets/product-2.jpg";
-import product3 from "@/assets/product-3.jpg";
-import product4 from "@/assets/product-4.jpg";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { apiClient, ProductDTO } from "@/lib/api";
 
 const bridalCategories = [
-  { name: "Bridal Necklace Sets", image: bridalNecklaces },
-  { name: "Bridal Earrings", image: bridalEarrings },
-  { name: "Bridal Bangles & Bracelets", image: bridalBangles },
-  { name: "Bridal Rings", image: product1 },
-  { name: "Bridal Accessories", image: product2 },
-  { name: "Complete Bridal Sets", image: product3 },
+  { name: "Bridal Necklace Sets", image: bridalNecklaces, route: "necklace-sets" },
+  { name: "Bridal Earrings", image: bridalEarrings, route: "earrings" },
+  { name: "Bridal Bangles & Bracelets", image: bridalBangles, route: "bangles-bracelets" },
+  { name: "Bridal Rings", image: bridalNecklaces, route: "rings" },
+  { name: "Bridal Accessories", image: bridalEarrings, route: "accessories" },
+  { name: "Complete Bridal Sets", image: bridalBangles, route: "complete-sets" },
 ];
 
 const services = [
@@ -29,6 +27,42 @@ const services = [
 ];
 
 const BridalCollection = () => {
+  // Hardcoded product IDs for featured bridal pieces
+  const featuredProductIds = [1, 2, 3, 4]; // You can change these IDs as needed
+  const [featuredProducts, setFeaturedProducts] = useState<ProductDTO[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const navigate=useNavigate();
+
+  useEffect(() => {
+    const fetchFeaturedProducts = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+        
+        // Fetch products by their IDs
+        const productPromises = featuredProductIds.map(id => 
+          apiClient.getProduct(id).catch(err => {
+            console.warn(`Failed to fetch product ${id}:`, err);
+            return null; // Return null for failed requests
+          })
+        );
+        
+        const products = await Promise.all(productPromises);
+        const validProducts = products.filter((product): product is ProductDTO => product !== null);
+        
+        setFeaturedProducts(validProducts);
+      } catch (err) {
+        console.error('Error fetching featured products:', err);
+        setError('Failed to load featured products');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchFeaturedProducts();
+  }, []);
+
   return (
     <div className="min-h-screen bg-background">
       <Header />
@@ -85,9 +119,11 @@ const BridalCollection = () => {
               </div>
               <div className="absolute inset-0 bg-gradient-to-t from-primary/90 via-primary/40 to-transparent flex flex-col justify-end p-6">
                 <h3 className="font-display text-2xl text-white mb-4">{category.name}</h3>
-                <Button variant="secondary" className="w-full">
-                  View Collection
-                </Button>
+                <Link to={`/bridal/collection/${category.route}`}>
+                  <Button variant="secondary" className="w-full">
+                    View Collection
+                  </Button>
+                </Link>
               </div>
             </div>
           ))}
@@ -99,22 +135,49 @@ const BridalCollection = () => {
         <div className="container mx-auto px-4">
           <h2 className="font-display text-4xl text-center mb-4 text-foreground">Featured Bridal Pieces</h2>
           <p className="text-center text-muted-foreground mb-12">Handpicked treasures for your special day</p>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-            {[product1, product2, product3, product4].map((product, index) => (
-              <div key={index} className="bg-card rounded-lg overflow-hidden card-shadow hover:hover-shadow transition-smooth">
-                <div className="aspect-square overflow-hidden">
-                  <img src={product} alt={`Bridal Product ${index + 1}`} className="w-full h-full object-cover hover:scale-110 transition-elegant" />
+          
+          {loading ? (
+            <div className="flex justify-center items-center py-12">
+              <div className="text-muted-foreground">Loading featured products...</div>
+            </div>
+          ) : error ? (
+            <div className="flex justify-center items-center py-12">
+              <div className="text-destructive">{error}</div>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+              {featuredProducts.map((product) => (
+                <div key={product.productId} className="bg-card rounded-lg overflow-hidden card-shadow hover:hover-shadow transition-smooth">
+                  <div className="aspect-square overflow-hidden">
+                    {product.images && product.images.length > 0 ? (
+                      <img 
+                        src={product.images[0].imageUrl} 
+                        alt={product.name} 
+                        className="w-full h-full object-cover hover:scale-110 transition-elegant" 
+                      />
+                    ) : (
+                      <div className="w-full h-full bg-muted flex items-center justify-center">
+                        <span className="text-muted-foreground">No Image</span>
+                      </div>
+                    )}
+                  </div>
+                  <div className="p-4">
+                    <h3 className="font-display text-lg mb-1 text-foreground">{product.name}</h3>
+                    <p className="text-sm text-muted-foreground mb-2">ID: {product.productId}</p>
+                    <p className="text-sm text-muted-foreground mb-3">
+                      {product.category.name} • {product.metal.metalType} {product.metal.metalPurity}
+                    </p>
+                    <Link to={`/product/${product.productId}`}>
+                      <Button variant="outline" className="w-full">
+                        View Details
+                      </Button>
+                    </Link>
+                  </div>
                 </div>
-                <div className="p-4">
-                  <h3 className="font-display text-lg mb-1 text-foreground">Bridal Masterpiece</h3>
-                  <p className="text-sm text-muted-foreground mb-3">ID: BRD00{index + 1}</p>
-                  <Button variant="outline" className="w-full">
-                    View Details
-                  </Button>
-                </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
+          
           <div className="text-center">
             <Button variant="default" size="lg">
               View All Bridal Jewellery
@@ -158,7 +221,7 @@ const BridalCollection = () => {
                 </div>
               </li>
             </ul>
-            <Button size="lg" variant="default">
+            <Button size="lg" variant="default" onClick={() => navigate("/custom-design")}>
               Request Custom Design
             </Button>
           </div>

@@ -37,7 +37,7 @@ export default function ReviewManagement() {
           return;
         }
         
-        const response = await axiosInstance.get('/api/reviews/public');
+        const response = await axiosInstance.get('/api/reviews/adminQueue');
         localStorage.setItem("numberOfReviews", response.data.length);
         console.log('Reviews response:', response.data); 
         console.log('Response status:', response.status);

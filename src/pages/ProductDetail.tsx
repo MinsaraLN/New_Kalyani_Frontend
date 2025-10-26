@@ -3,7 +3,6 @@ import { useParams, Link } from "react-router-dom";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
 import {
   Accordion,
   AccordionContent,
@@ -12,36 +11,10 @@ import {
 } from "@/components/ui/accordion";
 import { MessageCircle, Loader2 } from "lucide-react";
 import axiosInstance from "@/lib/axios";
+import { getFilteredProduct, formatPriceForDisplay, formatProductIdForDisplay, isAdminUser } from "@/lib/productUtils";
 
-// Backend interfaces
-interface ProductDTO {
-  productId: number;
-  name: string;
-  size?: string;
-  weight?: number;
-  hasGemstone: boolean;
-  initialProductionCost: number;
-  quantity: number;
-  productDescription?: string;
-  category: {
-    categoryId: number;
-    name: string;
-  };
-  metal: {
-    metalId: number;
-    metalType: string;
-    metalPurity: string;
-  };
-  gems: Array<{
-    gemId: number;
-    gemName: string;
-    karatRate: number;
-  }>;
-  images: Array<{
-    imageId: number;
-    imageUrl: string;
-  }>;
-}
+// Import the ProductDTO from api.ts to ensure type consistency
+import { ProductDTO } from "@/lib/api";
 
 const ProductDetail = () => {
   const { id } = useParams();
@@ -122,6 +95,11 @@ const ProductDetail = () => {
     );
   }
 
+  const filteredProduct = getFilteredProduct(product);
+  const priceDisplay = formatPriceForDisplay(product);
+  const productIdDisplay = formatProductIdForDisplay(product);
+  const isAdmin = isAdminUser();
+
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
@@ -132,20 +110,20 @@ const ProductDetail = () => {
           <div className="text-sm text-muted-foreground mb-8">
             <Link to="/" className="hover:text-primary transition-smooth">Home</Link>
             <span className="mx-2">/</span>
-            <Link to={`/jewellery/${product.category.name.toLowerCase()}`} className="hover:text-primary transition-smooth">
-              {product.category.name}
+            <Link to={`/jewellery/${filteredProduct.category.name.toLowerCase()}`} className="hover:text-primary transition-smooth">
+              {filteredProduct.category.name}
             </Link>
             <span className="mx-2">/</span>
-            <span className="text-foreground">{product.name}</span>
+            <span className="text-foreground">{filteredProduct.name}</span>
           </div>
 
           <div className="grid lg:grid-cols-2 gap-12 mb-16">
             {/* Product Images */}
             <div className="space-y-4">
-              <div className="aspect-square overflow-hidden rounded-lg card-shadow bg-muted group relative">
+              <div className="w-89 h-89 overflow-hidden rounded-lg card-shadow bg-muted group relative"> 
                 <img
-                  src={product.images?.[0]?.imageUrl || "/placeholder.svg"}
-                  alt={product.name}
+                  src={filteredProduct.images?.[0]?.imageUrl || "/placeholder.svg"}
+                  alt={filteredProduct.name}
                   className="w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-150 cursor-zoom-in"
                   onError={(e) => {
                     // Fallback to placeholder if image fails to load
@@ -153,7 +131,7 @@ const ProductDetail = () => {
                     target.src = "/placeholder.svg";
                   }}
                 />
-                {product.hasGemstone && (
+                {filteredProduct.hasGemstone && (
                   <div className="absolute top-4 right-4 bg-emerald-600 text-white px-3 py-1.5 rounded-full text-xs font-medium shadow-lg flex items-center gap-1.5">
                     <span className="w-1.5 h-1.5 bg-white rounded-full animate-pulse"></span>
                     Gemstone
@@ -166,26 +144,34 @@ const ProductDetail = () => {
             <div className="space-y-6">
               <div>
                 <p className="text-sm text-muted-foreground mb-2 uppercase tracking-wider">
-                  {product.category.name}
+                  {filteredProduct.category.name}
                 </p>
                 <h1 className="text-3xl lg:text-4xl font-display font-bold text-primary mb-2">
-                  {product.name}
+                  {filteredProduct.name}
                 </h1>
-                <p className="text-lg text-muted-foreground">ID: {product.productId}</p>
+                {productIdDisplay && (
+                  <p className="text-lg text-muted-foreground">{productIdDisplay}</p>
+                )}
               </div>
 
               <div className="space-y-2">
                 <p className="text-foreground leading-relaxed">
-                  {product.productDescription || "Gold prices vary daily. Please WhatsApp us for today's price."}
+                  {filteredProduct.productDescription || "Gold prices vary daily. Please WhatsApp us for today's price."}
                 </p>
-                <div className="flex items-center gap-4 text-sm text-muted-foreground">
-                  {/* <span>Price: LKR {product.initialProductionCost.toLocaleString()}</span> */}
-                  {product.quantity > 0 ? (
-                    <span className="text-green-600">In Stock ({product.quantity})</span>
-                  ) : (
-                    <span className="text-red-600">Out of Stock</span>
-                  )}
-                </div>
+                {priceDisplay && (
+                  <p className="text-lg font-semibold text-accent">
+                    {priceDisplay}
+                  </p>
+                )}
+                {isAdmin && (
+                  <div className="flex items-center gap-4 text-sm text-muted-foreground">
+                    {product.quantity > 0 ? (
+                      <span className="text-green-600">In Stock ({product.quantity})</span>
+                    ) : (
+                      <span className="text-red-600">Out of Stock</span>
+                    )}
+                  </div>
+                )}
               </div>
 
               {/* <div className="pt-4">
@@ -206,32 +192,32 @@ const ProductDetail = () => {
                       <div className="flex justify-between py-2 border-b border-border">
                         <span className="text-muted-foreground">Metal</span>
                         <span className="font-medium text-foreground">
-                          {product.metal.metalType} - {product.metal.metalPurity}
+                          {filteredProduct.metal.metalType} - {filteredProduct.metal.metalPurity}
                         </span>
                       </div>
-                      {product.weight && (
+                      {isAdmin && product.weight && (
                         <div className="flex justify-between py-2 border-b border-border">
                           <span className="text-muted-foreground">Weight</span>
                           <span className="font-medium text-foreground">{product.weight}g</span>
                         </div>
                       )}
-                      {product.size && (
+                      {isAdmin && product.size && (
                         <div className="flex justify-between py-2 border-b border-border">
                           <span className="text-muted-foreground">Size</span>
                           <span className="font-medium text-foreground">{product.size}</span>
                         </div>
                       )}
-                      {product.gems.length > 0 && (
+                      {filteredProduct.gems.length > 0 && (
                         <div className="flex justify-between py-2 border-b border-border">
                           <span className="text-muted-foreground">Gems</span>
                           <span className="font-medium text-foreground">
-                            {product.gems.map(gem => gem.gemName).join(', ')}
+                            {filteredProduct.gems.map(gem => gem.name).join(', ')}
                           </span>
                         </div>
                       )}
                       <div className="flex justify-between py-2 border-b border-border last:border-0">
                         <span className="text-muted-foreground">Category</span>
-                        <span className="font-medium text-foreground">{product.category.name}</span>
+                        <span className="font-medium text-foreground">{filteredProduct.category.name}</span>
                       </div>
                     </div>
                   </AccordionContent>

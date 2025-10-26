@@ -8,7 +8,9 @@ import Footer from "@/components/Footer";
 import { MessageCircle, Pencil, CheckCircle, Sparkles, Heart, Award } from "lucide-react";
 import { toast } from "sonner";
 import customDesignHero from "@/assets/custom-design-hero.jpg";
-import customProcess from "@/assets/custom-process.jpg";
+import customProcess1 from "@/assets/custom-process.jpg";
+import customProcess2 from "@/assets/custom-process1.jpg";
+import customProcess3 from "@/assets/custom-process3.jpg";
 import axiosInstance from '@/lib/axios';
 
 interface Metal {
@@ -22,19 +24,19 @@ const steps = [
     icon: MessageCircle,
     title: "Consultation",
     description: "Share your ideas with our expert designers",
-    image: customProcess,
+    image: customProcess1,
   },
   {
     icon: Pencil,
     title: "Design & Sketch",
     description: "We create detailed sketches and 3D renderings",
-    image: customProcess,
+    image: customProcess2,
   },
   {
     icon: CheckCircle,
     title: "Approval & Crafting",
     description: "Approve design and our craftsmen begin work",
-    image: customProcess,
+    image: customProcess3,
   },
 ];
 

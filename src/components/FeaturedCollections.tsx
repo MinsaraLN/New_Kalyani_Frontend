@@ -72,6 +72,15 @@ const FeaturedCollections = () => {
             </div>
           ))}
         </div>
+        
+        {/* Explore Collections Button */}
+        <div className="text-center mt-12">
+          <Link to="/bridal">
+            <Button size="lg" variant="default">
+              Explore Our Collections
+            </Button>
+          </Link>
+        </div>
       </div>
     </section>
   );
